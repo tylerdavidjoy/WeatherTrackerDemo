@@ -1,16 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Weather Tracker Demo";
 }
 @model WeatherModel
 
-<div class="text-center">
-    <h1 class="display-4">Weather App - Demo</h1>
+<div class="text-center" style="margin-bottom:2%;">
+    <h1 class="display-4 title">Weather App - Demo</h1>
     @using(Html.BeginForm("GetWeather","Home"))
     {
         @Html.TextBoxFor(m=>m.City)
         <input type="submit" value="Get Weather"/>       
     }
-
+    <hr />
     @if(!String.IsNullOrEmpty(Model.City))
     {
         <h1>Currently</h1>
