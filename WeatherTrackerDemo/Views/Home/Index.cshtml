@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model WeatherModel
+
+<div class="text-center">
+    <h1 class="display-4">Weather App - Demo</h1>
+    @using(Html.BeginForm("GetWeather","Home"))
+    {
+        @Html.TextBoxFor(m=>m.City)
+        <input type="submit" value="Get Weather"/>       
+    }
+
+    @if(!String.IsNullOrEmpty(Model.City))
+    {
+        <h1>Currently</h1>
+        <div class="weather-day">
+            <div class="weather-title">@Model.Current.DayOfWeek</div>
+            <div class="weather-body">
+                <img src="@Model.Current.Img" /> <!--Image for what weather is-->
+                @if(Model.Current.PrecipitationChance > 0)
+                {
+                    <p>Precip: <strong>@Model.Current.PrecipitationChance</strong></p>
+                }
+                <p>Temp: <strong>@Model.Current.Temperature</strong></p> <!--Current Temp in requested measurement C/F-->
+                <p>Feels Like: <strong>@Model.Current.FeelsLike</strong></p> <!--Feels Like in requested measurement C/F-->
+                <p>Humidity: <strong>@Model.Current.Humidity%</strong></p>
+                <p>@Model.Current.Wind</p> <!--Wind-->
+                <p>UV: <strong>@Model.Current.UV</strong></p>
+                <p>Pressure: <strong>@Model.Current.Pressure</strong></p>
+            </div>
+        </div>
+
+        <div>
+            <h1>3 Day - Forecast</h1>
+            <div>
+                @foreach (var day in Model.Forecast)
+                {
+                    <div class="weather-day">
+                        <div class="weather-title">@day.DayOfWeek</div>
+                        <div class="weather-body">
+                            <img src="@day.Img"/> <!--Image for what weather is-->
+                            @if(day.PrecipitationChance > 0)
+                            {
+                                <h4>@day.PrecipitationChance</h4> <!--Chance of rain-->
+                            }
+                            else
+                            {
+                                <h4>&nbsp;</h4>
+                            }
+                            <p>High: <strong>@day.High</strong></p> <!--High in requested measurement C/F-->
+                            <p>Low: <strong>@day.Low</strong></p> <!--Low in requested measurement C/F-->
+                            <p>Humidity: <strong>@day.Humidity%</strong></p>
+                            <p>@day.Wind</p>
+                            <p>UV:<strong>@day.UV</strong></p>
+                            <p>Pressure: <strong>@day.Pressure</strong></p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
