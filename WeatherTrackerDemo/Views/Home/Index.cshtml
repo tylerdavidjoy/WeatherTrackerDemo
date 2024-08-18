@@ -21,7 +21,7 @@
                 <img src="@Model.Current.Img" /> <!--Image for what weather is-->
                 @if(Model.Current.PrecipitationChance > 0)
                 {
-                    <p>Precip: <strong>@Model.Current.PrecipitationChance</strong></p>
+                    <p>Precipitation: <strong>@Model.Current.PrecipitationChance%</strong></p> <!--Chance of rain-->
                 }
                 <p>Temp: <strong>@Model.Current.Temperature</strong></p> <!--Current Temp in requested measurement C/F-->
                 <p>Feels Like: <strong>@Model.Current.FeelsLike</strong></p> <!--Feels Like in requested measurement C/F-->
@@ -43,17 +43,17 @@
                             <img src="@day.Img"/> <!--Image for what weather is-->
                             @if(day.PrecipitationChance > 0)
                             {
-                                <h4>@day.PrecipitationChance</h4> <!--Chance of rain-->
+                                <p>Precipitation: <strong>@day.PrecipitationChance%</strong></p> <!--Chance of rain-->
                             }
                             else
                             {
-                                <h4>&nbsp;</h4>
+                                <p>&nbsp;</p>
                             }
                             <p>High: <strong>@day.High</strong></p> <!--High in requested measurement C/F-->
                             <p>Low: <strong>@day.Low</strong></p> <!--Low in requested measurement C/F-->
                             <p>Humidity: <strong>@day.Humidity%</strong></p>
                             <p>@day.Wind</p>
-                            <p>UV:<strong>@day.UV</strong></p>
+                            <p>UV: <strong>@day.UV</strong></p>
                             <p>Pressure: <strong>@day.Pressure</strong></p>
                         </div>
                     </div>
