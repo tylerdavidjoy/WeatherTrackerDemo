@@ -7,7 +7,8 @@
     <h1 class="display-4 title">Weather App - Demo</h1>
     @using(Html.BeginForm("GetWeather","Home"))
     {
-        @Html.TextBoxFor(m=>m.City)
+        @Html.Label("City","Enter City:", new { style = "margin-right: 1%;" })
+        @Html.TextBoxFor(m=>m.City, new {placeholder = "London, England"})
         <input type="submit" value="Get Weather"/>       
     }
     <hr />
