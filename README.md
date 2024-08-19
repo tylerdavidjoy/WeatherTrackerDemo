@@ -5,4 +5,4 @@ Azure App Services is used for hosting the app which is then auto scaled out bas
 
 The app then integrates with Azure Functions to send push notifications, using Notification Hub, or emails, using Event Grid, when severe weather events occur.
 
-The container for this site is stored on DockerHub for its cost saving benefits for the purpose of this demo.
+The container for this site is stored on [DockerHub](https://hub.docker.com/repository/docker/tdjoy/weathertrackerdemo/general) for its cost saving benefits for the purpose of this demo.
