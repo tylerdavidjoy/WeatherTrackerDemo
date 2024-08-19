@@ -7,10 +7,13 @@
     <h1 class="display-4 title">Weather App - Demo</h1>
     @using(Html.BeginForm("GetWeather","Home"))
     {
-        @Html.Label("City","Enter City:", new { style = "margin-right: 1%;" })
-        @Html.TextBoxFor(m=>m.City, new {placeholder = "London, England"})
-        <input type="submit" value="Get Weather"/>       
+        <div class="input-group input-group-lg mb-3" style="width:70%; margin:auto;">
+            @Html.Label("City", "Enter City:", new { @class = "input-group-text" })
+            @Html.TextBoxFor(m => m.City, new { placeholder = "London, England", @class = "form-control"})
+        </div>
+        <input type="submit" value="Get Weather" class="btn btn-lg btn-primary"/>
     }
+    <br />
     <hr />
     @if(!String.IsNullOrEmpty(Model.City))
     {

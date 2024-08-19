@@ -1,7 +1,15 @@
+using Microsoft.AspNetCore.ResponseCompression;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
+});
 
 var app = builder.Build();
 
@@ -14,7 +22,21 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    HttpsCompression = Microsoft.AspNetCore.Http.Features.HttpsCompressionMode.Compress,
+    OnPrepareResponse = (context) =>
+    {
+        var headers = context.Context.Response.GetTypedHeaders();
+        headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromDays(30)
+        };
+    }
+});
+
+app.UseResponseCompression();
 
 app.UseRouting();
 
