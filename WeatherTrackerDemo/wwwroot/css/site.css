@@ -9,8 +9,10 @@ html {
 }
 
 
-@media (max-width: 800px) {
-
+@media (max-width: 1000px) {
+    .hide-mobile {
+        display:none;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -26,9 +28,41 @@ body {
   margin-bottom: 60px;
 }
 
+.weather-current {
+    border-radius: 25px;
+    margin: auto;
+    background-color: darkblue;
+    padding:2rem;
+    color:white;
+    margin-bottom:2rem;
+}
+
+.weather-twelve-hour {
+    width: 10rem;
+    height: 10rem;
+    margin: auto;
+    display: inline-block;
+    background-color: lightblue;
+    border-radius: 25px;
+    color:black;
+    margin:1rem;
+    padding:.5rem;
+}
+
+.weather-five-day {
+    border-radius:25px;
+    background-color:darkblue;
+    color:white;
+    margin:1rem;
+}
+
+.weather-five-day-item{
+    padding:1.6rem;
+}
+
 .weather-day
 {
-    width:15rem;
+    width:12rem;
     height:27rem;
     border-radius:25px;
     margin:auto;

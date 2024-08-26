@@ -4,7 +4,7 @@
 @model WeatherModel
 
 <div class="text-center" style="margin-bottom:2%;">
-    <h1 class="display-4 title">Weather App - Demo</h1>
+    <h2 class="display-4 title">Weather App - Demo</h2>
     @using(Html.BeginForm("GetWeather","Home"))
     {
         <div class="input-group input-group-lg mb-3" style="width:70%; margin:auto;">
@@ -17,51 +17,105 @@
     <hr />
     @if(!String.IsNullOrEmpty(Model.City))
     {
-        <h1>Currently</h1>
-        <div class="weather-day">
-            <div class="weather-title">@Model.Current.DayOfWeek</div>
-            <div class="weather-body">
-                <img src="@Model.Current.Img" /> <!--Image for what weather is-->
-                @if(Model.Current.PrecipitationChance > 0)
-                {
-                    <p>Precipitation: <strong>@Model.Current.PrecipitationChance%</strong></p> <!--Chance of rain-->
-                }
-                <p>Temp: <strong>@Model.Current.Temperature</strong></p> <!--Current Temp in requested measurement C/F-->
-                <p>Feels Like: <strong>@Model.Current.FeelsLike</strong></p> <!--Feels Like in requested measurement C/F-->
-                <p>Humidity: <strong>@Model.Current.Humidity%</strong></p>
-                <p>@Model.Current.Wind</p> <!--Wind-->
-                <p>UV: <strong>@Model.Current.UV</strong></p>
-                <p>Pressure: <strong>@Model.Current.Pressure</strong></p>
+        <!--Current-->
+        <div class="shadow-lg container weather-current">
+            <div class="row">
+                <div class="col border-end border-3" style="border-color:blue !important;">
+                    <img src='@Url.Content($"~/images/WeatherIcon/{Model.TwelveHourForecast[0].Img}.png")' style="width:16.6rem; height:10rem;" /> <!--Image for what weather is-->
+                    <h2>@Model.TwelveHourForecast[0].Temperature°F</h2>
+                    <h4>(Feels Like: @Model.TwelveHourForecast[0].FeelsLike°F)</h4>
+                    <h3>@Model.TwelveHourForecast[0].Description</h3>
+                </div>
+
+                <div class="col">
+                    <div class="container" style="margin-top:3rem;">
+                        <div class="row row-cols-3 gx-3 gy-4">
+                            <div class="col">
+                                <h3>@Model.TwelveHourForecast[0].High°F</h3>
+                                <h5>High</h5>
+                            </div>
+
+                            <div class="col">
+                                <h3>@Model.TwelveHourForecast[0].Humidity%</h3>
+                                <h5>Humidity</h5>
+                            </div>
+
+                            <div class="col">
+                                <h4>@Model.TwelveHourForecast[0].PrecipitationChance%</h4>
+                                <h5>Precipitation Chance</h5>
+                            </div>
+
+                            <div class="col">
+                                <h3>@Model.TwelveHourForecast[0].Low°F</h3>
+                                <h5>Low</h5>
+                            </div>
+
+                            <div class="col">
+                                <h4>@Model.TwelveHourForecast[0].Wind</h4>
+                                <h5>Wind</h5>
+                            </div>
+
+                            <div class="col">
+                                <h4>@Model.TwelveHourForecast[0].UV</h4>
+                                <h5>UV</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div>
-            <h1>3 Day - Forecast</h1>
-            <div>
-                @foreach (var day in Model.Forecast)
-                {
-                    <div class="weather-day">
-                        <div class="weather-title">@day.DayOfWeek</div>
-                        <div class="weather-body">
-                            <img src="@day.Img"/> <!--Image for what weather is-->
-                            @if(day.PrecipitationChance > 0)
-                            {
-                                <p>Precipitation: <strong>@day.PrecipitationChance%</strong></p> <!--Chance of rain-->
-                            }
-                            else
-                            {
-                                <p>&nbsp;</p>
-                            }
-                            <p>High: <strong>@day.High</strong></p> <!--High in requested measurement C/F-->
-                            <p>Low: <strong>@day.Low</strong></p> <!--Low in requested measurement C/F-->
-                            <p>Humidity: <strong>@day.Humidity%</strong></p>
-                            <p>@day.Wind</p>
-                            <p>UV: <strong>@day.UV</strong></p>
-                            <p>Pressure: <strong>@day.Pressure</strong></p>
+        @foreach(var hour in Model.TwelveHourForecast)
+        {
+            <div class="shadow weather-twelve-hour">
+                <h5>@hour.Timestamp.ToLocalTime().ToString("h:mm tt")</h5>
+                <img src='@Url.Content($"~/images/WeatherIcon/{hour.Img}.png")' style="width:8.3rem; height:5rem;" /> <!--Image for what weather is-->
+                <h5>@hour.Temperature°F</h5>
+            </div>
+        }       
+        <br />
+        <hr />
+        <h2>5 Day Forecast</h2>
+        <ul class="list-group">
+            @foreach(var day in Model.FiveDayForecast)
+            {
+                <li class="weather-five-day shadow-lg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h5 style="padding:1.6rem">@day.Timestamp.ToLocalTime().DayOfWeek</h5>
+                            </div>
+                            <div class="col-sm-1">
+                                <img src='@Url.Content($"~/images/WeatherIcon/{day.Img}.png")' style="width:8.3rem; height:5rem;" /> <!--Image for what weather is-->
+                            </div>
+                            <div class="col" style="padding:.6rem;">
+                                <h4>@day.High</h4>
+                                <h6>High</h6>
+                            </div>
+                            <div class="col" style="padding:.6rem;">
+                                <h4>@day.Low</h4>
+                                <h6>Low</h6>
+                            </div>
+                            <div class="col hide-mobile" style="padding:.6rem;">
+                                <h4>@day.Humidity%</h4>
+                                <h6>Humidity</h6>
+                            </div>
+                            <div class="col hide-mobile">
+                                <h4>@day.PrecipitationChance%</h4>
+                                <h6>Precipitation Chance</h6>
+                            </div>
+                            <div class="col hide-mobile" style="padding:.6rem;">
+                                <h4>@day.Wind</h4>
+                                <h6>Wind</h6>
+                            </div>
+                            <div class="col hide-mobile" style="padding:.6rem;">
+                                <h4>@day.UV</h4>
+                                <h6>UV</h6>
+                            </div>
                         </div>
                     </div>
-                }
-            </div>
-        </div>
+                </li>
+            }
+        </ul>       
     }
 </div>
