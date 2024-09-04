@@ -31,32 +31,32 @@
                     <div class="container" style="margin-top:3rem;">
                         <div class="row row-cols-3 gx-3 gy-4">
                             <div class="col">
-                                <h3>@Model.TwelveHourForecast[0].High°F</h3>
+                                <h3>@Model.FiveDayForecast[1].High°F</h3>
                                 <h5>High</h5>
                             </div>
 
                             <div class="col">
-                                <h3>@Model.TwelveHourForecast[0].Humidity%</h3>
+                                <h3>@Model.FiveDayForecast[1].Humidity%</h3>
                                 <h5>Humidity</h5>
                             </div>
 
                             <div class="col">
-                                <h4>@Model.TwelveHourForecast[0].PrecipitationChance%</h4>
+                                <h4>@Model.FiveDayForecast[1].PrecipitationChance%</h4>
                                 <h5>Precipitation Chance</h5>
                             </div>
 
                             <div class="col">
-                                <h3>@Model.TwelveHourForecast[0].Low°F</h3>
+                                <h3>@Model.FiveDayForecast[1].Low°F</h3>
                                 <h5>Low</h5>
                             </div>
 
                             <div class="col">
-                                <h4>@Model.TwelveHourForecast[0].Wind</h4>
+                                <h4>@Model.FiveDayForecast[1].Wind</h4>
                                 <h5>Wind</h5>
                             </div>
 
                             <div class="col">
-                                <h4>@Model.TwelveHourForecast[0].UV</h4>
+                                <h4>@Model.FiveDayForecast[1].UV</h4>
                                 <h5>UV</h5>
                             </div>
                         </div>
@@ -97,15 +97,15 @@
                                 <h6>Low</h6>
                             </div>
                             <div class="col hide-mobile" style="padding:.6rem;">
-                                <h4>@day.Humidity%</h4>
+                                <h5>@day.Humidity%</h5>
                                 <h6>Humidity</h6>
                             </div>
-                            <div class="col hide-mobile">
-                                <h4>@day.PrecipitationChance%</h4>
-                                <h6>Precipitation Chance</h6>
+                            <div class="col hide-mobile" style="padding:.6rem;">
+                                <h5>@day.PrecipitationChance%</h5>
+                                <h6>Precip. Chance</h6>
                             </div>
                             <div class="col hide-mobile" style="padding:.6rem;">
-                                <h4>@day.Wind</h4>
+                                <h5>@day.Wind</h5>
                                 <h6>Wind</h6>
                             </div>
                             <div class="col hide-mobile" style="padding:.6rem;">

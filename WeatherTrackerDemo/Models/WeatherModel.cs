@@ -30,7 +30,7 @@ namespace WeatherTrackerDemo.Models
                     {
                         TwelveHourForecast.Add(new WeatherItem(
                             hour["WeatherIcon"].Value<string>(),
-                            "TEST",
+                            hour["IconPhrase"].Value<string>(),
                             hour["Temperature"]["Value"].Value<float>(),
                             hour["RealFeelTemperature"]["Value"].Value<float>(),
                             hour["PrecipitationProbability"].Value<int>(),
@@ -56,7 +56,7 @@ namespace WeatherTrackerDemo.Models
                         {
                             FiveDayForecast.Add(new WeatherItem(
                                 day["Day"]["Icon"].Value<string>(),
-                                "TEST",
+                                day["Day"]["IconPhrase"].Value<string>(),
                                 0,
                                 0,
                                 Math.Max(day["Day"]["PrecipitationProbability"].Value<int>(), day["Night"]["PrecipitationProbability"].Value<int>()),
