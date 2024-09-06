@@ -1,24 +1,24 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WeatherTrackerDemo.Repositories;
 
 namespace WeatherTrackerDemo.Models
 {
     public class WeatherModel
     {
-        public string City { get; set; }
+        public string Location { get; set; }
         public List<WeatherItem> TwelveHourForecast { get; set; }
         public List<WeatherItem> FiveDayForecast { get; set; }
 
-        public async Task GetWeather(string apikey)
+        public async Task GetWeather(string apiKey, string locationkey)
         {
             TwelveHourForecast = new List<WeatherItem>();
             FiveDayForecast = new List<WeatherItem>();
-
+            
             using (HttpClient client = new HttpClient())
             {
-                var locationkey = 350143;
                 //12-Hour Forecast
-                var url = new Uri($"http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/{locationkey}?apikey={apikey}&details=true");
+                var url = new Uri($"http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/{locationkey}?apikey={apiKey}&details=true");
                 var res = await client.GetAsync(url);
 
                 if (res.IsSuccessStatusCode)
@@ -44,7 +44,7 @@ namespace WeatherTrackerDemo.Models
                     }
 
                     //5 Day Forecast
-                    url = new Uri($"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{locationkey}?apikey={apikey}&details=true");
+                    url = new Uri($"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{locationkey}?apikey={apiKey}&details=true");
                     res = await client.GetAsync(url);
 
                     if(res.IsSuccessStatusCode)
@@ -71,12 +71,13 @@ namespace WeatherTrackerDemo.Models
                 }
                 else
                 {
-                    GetWeatherTest();
+                    GetWeatherFallBack();
                 }
             }
         }
-
-        public async Task GetWeatherTest()
+        
+        //TODO: Change this to use a less accurate weather api with higher limits
+        public async Task GetWeatherFallBack()
         {
             TwelveHourForecast = new List<WeatherItem>();
             FiveDayForecast = new List<WeatherItem>();

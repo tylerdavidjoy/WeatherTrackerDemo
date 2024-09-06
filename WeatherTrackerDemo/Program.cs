@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using WeatherTrackerDemo.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
 });
+
+builder.Services.AddTransient<IWeatherRepository, WeatherRepository>();
 
 var app = builder.Build();
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using WeatherTrackerDemo.Models;
+using WeatherTrackerDemo.Repositories;
 
 namespace WeatherTrackerDemo.Controllers
 {
@@ -9,10 +10,12 @@ namespace WeatherTrackerDemo.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IConfiguration _configuration;
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        private readonly IWeatherRepository _weatherRepository;
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IWeatherRepository weatherRepository)
         {
             _logger = logger;
             _configuration = configuration;
+            _weatherRepository = weatherRepository;
         }
 
         public IActionResult Index()
@@ -33,8 +36,8 @@ namespace WeatherTrackerDemo.Controllers
         [HttpPost]
         public async Task<IActionResult> GetWeather(WeatherModel model)
         {
-            string apikey = _configuration.GetValue<string>("Weather:APIKEY");
-            await model.GetWeather(apikey);
+            var locationKey = await _weatherRepository.GetLocationKey(model.Location);
+            await model.GetWeather(_configuration.GetValue<string>("Weather:APIKEY"), locationKey);
             return View("index", model);
         }
     }
