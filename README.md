@@ -11,5 +11,6 @@ Either way it is hosted, the app then integrates with Azure Functions to send pu
 The container for this site is stored on [DockerHub](https://hub.docker.com/repository/docker/tdjoy/weathertrackerdemo/general) for its cost saving benefits for the purpose of this demo.
 
 ![image](WeatherTrackerDemo/wwwroot/Images/Interaction-Diagram.png)
+
 This application utilizes AccuWeather's API for weather information. AccuWeather uses a location key instead of the city name. 
 In order to preserve some api calls I cache these keys for a period of time.
