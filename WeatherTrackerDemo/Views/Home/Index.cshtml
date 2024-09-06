@@ -13,6 +13,12 @@
         </div>
         <input type="submit" value="Get Weather" class="btn btn-lg btn-primary"/>
     }
+    @if(Model.IsDefault)
+    {
+        <br />
+        <h4>I'm sorry, the api limits have been exhuasted for today.</h4>
+        <h4>Here is some example data so you can see how it works.</h4>
+    }
     <br />
     <hr />
     @if(!String.IsNullOrEmpty(Model.Location))

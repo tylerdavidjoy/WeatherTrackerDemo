@@ -54,6 +54,10 @@ namespace WeatherTrackerDemo.Repositories
                             var json = ((JArray)JsonConvert.DeserializeObject(resString))[0];
                             locationKey = json["Key"].Value<string>();
                         }
+                        else //Used up API limit for today, use fallback default
+                        {
+                            return "";
+                        }
                     }
 
                     //Cache value in database

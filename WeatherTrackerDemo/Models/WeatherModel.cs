@@ -9,7 +9,7 @@ namespace WeatherTrackerDemo.Models
         public string Location { get; set; }
         public List<WeatherItem> TwelveHourForecast { get; set; }
         public List<WeatherItem> FiveDayForecast { get; set; }
-
+        public bool IsDefault = false;
         public async Task GetWeather(string apiKey, string locationkey)
         {
             TwelveHourForecast = new List<WeatherItem>();
@@ -81,6 +81,7 @@ namespace WeatherTrackerDemo.Models
         {
             TwelveHourForecast = new List<WeatherItem>();
             FiveDayForecast = new List<WeatherItem>();
+            IsDefault = true;
 
             var time = DateTime.Now;
             for(var i = 0; i < 12; i++)
