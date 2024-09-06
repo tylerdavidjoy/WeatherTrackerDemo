@@ -9,3 +9,7 @@ For containers, we can use Azure Container Apps (or Azure Kubernetes, but I am u
 Either way it is hosted, the app then integrates with Azure Functions to send push notifications (using Notification Hub) or emails (using Event Grid) when severe weather events occur.
 
 The container for this site is stored on [DockerHub](https://hub.docker.com/repository/docker/tdjoy/weathertrackerdemo/general) for its cost saving benefits for the purpose of this demo.
+
+![image](WeatherTrackerDemo/wwwroot/Images/Interaction-Diagram.png)
+This application utilizes AccuWeather's API for weather information. AccuWeather uses a location key instead of the city name. 
+In order to preserve some api calls I cache these keys for a period of time.
