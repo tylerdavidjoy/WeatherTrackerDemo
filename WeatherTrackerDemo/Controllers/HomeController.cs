@@ -37,7 +37,7 @@ namespace WeatherTrackerDemo.Controllers
         public async Task<IActionResult> GetWeather(WeatherModel model)
         {
             var locationKey = await _weatherRepository.GetLocationKey(model.Location);
-            await model.GetWeather(_configuration.GetValue<string>("Weather:APIKEY"), locationKey);
+            await model.GetWeather(_configuration.GetValue<string>("WEATHER-API-KEY"), locationKey);
             return View("index", model);
         }
     }

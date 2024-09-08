@@ -13,8 +13,8 @@ namespace WeatherTrackerDemo.Repositories
         public WeatherRepository(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetValue<string>("SQL:ConnectionString");
-            _apiKey = _configuration.GetValue<string>("Weather:APIKEY");
+            _connectionString = _configuration.GetValue<string>("SQL-CONNECTION-STRING");
+            _apiKey = _configuration.GetValue<string>("WEATHER-API-KEY");
         }
 
         public async Task<string> GetLocationKey(string location)
