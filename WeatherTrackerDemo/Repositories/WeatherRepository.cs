@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Data.SqlClient;
-using System.Web;
+using Microsoft.Data.SqlClient;
 
 namespace WeatherTrackerDemo.Repositories
 {
@@ -16,12 +15,36 @@ namespace WeatherTrackerDemo.Repositories
             _connectionString = _configuration.GetValue<string>("SQL-CONNECTION-STRING");
             _apiKey = _configuration.GetValue<string>("WEATHER-API-KEY");
         }
+        //Database is serverless, as stated in Azure documentation, https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview?view=azuresql&tabs=general-purpose#connectivity
+        //The database is paused after not being used for 10 minutes.
+        //Database takes ~1 minute to wake, this will wake the database when someone visits the site.
+        public async Task WakeDatabase()
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+            }
+        }
 
         public async Task<string> GetLocationKey(string location)
         {
+            var options = new SqlRetryLogicOption()
+            {
+                // Tries 5 times before throwing an exception
+                NumberOfTries = 5,
+                // Preferred gap time to delay before retry
+                DeltaTime = TimeSpan.FromSeconds(1),
+                // Maximum gap time for each delay time before retry
+                MaxTimeInterval = TimeSpan.FromSeconds(20)
+                
+            };
+            SqlRetryLogicBaseProvider provider = SqlConfigurableRetryFactory.CreateExponentialRetryProvider(options);
+
             string locationKey = "";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
+                connection.RetryLogicProvider = provider;
+
                 connection.Open();
                 //See if it is cached in our database and is valid
                 var sql = @$"SELECT TOP(1) LocationKey

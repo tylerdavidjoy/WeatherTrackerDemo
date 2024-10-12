@@ -20,6 +20,7 @@ namespace WeatherTrackerDemo.Controllers
 
         public IActionResult Index()
         {
+            Task.Run(() => _weatherRepository.WakeDatabase());
             return View(new WeatherModel());
         }
 
