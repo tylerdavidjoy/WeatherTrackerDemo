@@ -43,24 +43,31 @@ namespace WeatherTrackerDemo.Repositories
             string locationKey = "";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.RetryLogicProvider = provider;
-
-                connection.Open();
-                //See if it is cached in our database and is valid
-                var sql = @$"SELECT TOP(1) LocationKey
-                              FROM [dbo].[LocationKeys]
-                              WHERE City LIKE '%{location}%'
-                              AND Valid > '{DateTime.Now}';";
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                try
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    connection.RetryLogicProvider = provider;
+
+                    connection.Open();
+                    //See if it is cached in our database and is valid
+                    var sql = @$"SELECT TOP(1) LocationKey
+                                  FROM [dbo].[LocationKeys]
+                                  WHERE City LIKE '%{location}%'
+                                  AND Valid > '{DateTime.Now}';";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        while (reader.Read())
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            locationKey = reader.GetString(0);
+                            while (reader.Read())
+                            {
+                                locationKey = reader.GetString(0);
+                            }
                         }
                     }
+                }
+                catch(Exception ex)
+                {
+                    //Database was asleep, act as if locationKey not found
                 }
 
                 if (String.IsNullOrEmpty(locationKey)) //Key was not cached or valid, Get from API and cache it
@@ -83,8 +90,9 @@ namespace WeatherTrackerDemo.Repositories
                         }
                     }
 
+
                     //Cache value in database
-                    sql = @$"BEGIN TRY     
+                    var sql = @$"BEGIN TRY     
                                 INSERT INTO dbo.LocationKeys VALUES
                                     (
 		                                '{location}',
@@ -105,6 +113,7 @@ namespace WeatherTrackerDemo.Repositories
                     {
                         try
                         {
+                            connection.Open();
                             if (await command.ExecuteNonQueryAsync() == 0)
                             {
                                 //Error inserting into the database
